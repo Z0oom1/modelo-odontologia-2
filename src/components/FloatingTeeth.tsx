@@ -33,6 +33,7 @@ export default function FloatingTeeth() {
         // 1. LEFT TOOTH TIMELINE: Lands exactly centered inside the #sobre section target slot
         const tlLeft = gsap.timeline({
           scrollTrigger: {
+            id: "left-trigger",
             trigger: estudioEl,
             endTrigger: sobreEl,
             start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport (smooth transition from Hero)
@@ -102,24 +103,30 @@ export default function FloatingTeeth() {
             y: () => {
               const toothEl = document.querySelector(".floating-tooth-1") as HTMLElement;
               const slotEl = document.getElementById("sobre-tooth-static");
-              const sobreEl = document.getElementById("sobre");
-              if (!toothEl || !slotEl || !sobreEl) return 0;
+              if (!toothEl || !slotEl) return 0;
 
               // Temporarily clear active GSAP transforms to measure true untransformed bounding rect
               const prevTransform = toothEl.style.transform;
               toothEl.style.transform = "none";
               const toothRect = toothEl.getBoundingClientRect();
               const slotRect = slotEl.getBoundingClientRect();
-              const sobreRect = sobreEl.getBoundingClientRect();
               toothEl.style.transform = prevTransform;
 
-              // Calculate relative vertical offset of slot within #sobre section
-              const slotOffset = slotRect.top - sobreRect.top;
+              const trigger = ScrollTrigger.getById("left-trigger");
+              const endScroll = trigger ? trigger.end : 0;
 
-              // Target top of slot inside viewport when #sobre center is at viewport center
-              const targetTop = (window.innerHeight / 2) - (sobreRect.height / 2) + slotOffset;
+              if (!trigger || !endScroll) {
+                // Safe fallback: use old calculation during initialization/refresh
+                const sobreEl = document.getElementById("sobre");
+                if (!sobreEl) return 0;
+                const sobreRect = sobreEl.getBoundingClientRect();
+                const slotOffset = slotRect.top - sobreRect.top;
+                const targetTop = (window.innerHeight / 2) - (sobreRect.height / 2) + slotOffset;
+                return targetTop - toothRect.top;
+              }
 
-              return targetTop - toothRect.top;
+              const currentScroll = window.scrollY || document.documentElement.scrollTop;
+              return (slotRect.top + currentScroll - endScroll) - toothRect.top;
             },
             rotate: 0,
             scale: 1.0,
@@ -133,6 +140,7 @@ export default function FloatingTeeth() {
         // 2. RIGHT TOOTH TIMELINE: Lands exactly in the doctor's pinched hand inside #corpo-clinico
         const tlRight = gsap.timeline({
           scrollTrigger: {
+            id: "right-trigger",
             trigger: estudioEl,
             endTrigger: corpoClinicoEl,
             start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport
@@ -206,24 +214,30 @@ export default function FloatingTeeth() {
             y: () => {
               const toothEl = document.querySelector(".floating-tooth-2") as HTMLElement;
               const slotEl = document.getElementById("doctor-tooth-slot");
-              const corpoClinicoEl = document.getElementById("corpo-clinico");
-              if (!toothEl || !slotEl || !corpoClinicoEl) return 0;
+              if (!toothEl || !slotEl) return 0;
 
               // Temporarily clear active GSAP transforms to measure true untransformed bounding rect
               const prevTransform = toothEl.style.transform;
               toothEl.style.transform = "none";
               const toothRect = toothEl.getBoundingClientRect();
               const slotRect = slotEl.getBoundingClientRect();
-              const corpoClinicoRect = corpoClinicoEl.getBoundingClientRect();
               toothEl.style.transform = prevTransform;
 
-              // Calculate relative vertical offset of slot within #corpo-clinico section
-              const slotOffset = slotRect.top - corpoClinicoRect.top;
+              const trigger = ScrollTrigger.getById("right-trigger");
+              const endScroll = trigger ? trigger.end : 0;
 
-              // Target top of slot inside viewport when #corpo-clinico center is at viewport center
-              const targetTop = (window.innerHeight / 2) - (corpoClinicoRect.height / 2) + slotOffset;
+              if (!trigger || !endScroll) {
+                // Safe fallback: use old calculation during initialization/refresh
+                const corpoClinicoEl = document.getElementById("corpo-clinico");
+                if (!corpoClinicoEl) return 0;
+                const corpoClinicoRect = corpoClinicoEl.getBoundingClientRect();
+                const slotOffset = slotRect.top - corpoClinicoRect.top;
+                const targetTop = (window.innerHeight / 2) - (corpoClinicoRect.height / 2) + slotOffset;
+                return targetTop - toothRect.top;
+              }
 
-              return targetTop - toothRect.top;
+              const currentScroll = window.scrollY || document.documentElement.scrollTop;
+              return (slotRect.top + currentScroll - endScroll) - toothRect.top;
             },
             rotate: 0,
             scale: 1.0,
