@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import CameraScrollSection from "@/components/CameraScrollSection";
 import Logo from "@/components/Logo";
 import Image from "next/image";
+import FloatingTeeth from "@/components/FloatingTeeth";
 import { Sparkle, Phone, Envelope, MapPin, ArrowRight, Eye, ShieldCheck, Pulse } from "@phosphor-icons/react";
 import { FormEvent, useState } from "react";
 
@@ -21,6 +22,7 @@ export default function Home() {
 
   return (
     <SmoothScroll>
+      <FloatingTeeth />
       <div className="relative w-full min-h-[100dvh] flex flex-col bg-[#FCFCFA]">
         
         {/* 1. Fullscreen Cinematic Hero Section */}
