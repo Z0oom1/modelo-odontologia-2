@@ -43,30 +43,30 @@ export default function FloatingTeeth() {
               // Scrolling down from Hero: Clear forced states and let timeline handle scrub fade-in
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
-              if (fixedEl) fixedEl.style.removeProperty("opacity");
+              if (staticEl) staticEl.classList.add("tooth-hidden");
+              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
             },
             onLeave: () => {
               // Reached landing point scrolling down: Instant swap!
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.style.setProperty("opacity", "1", "important");
-              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+              if (staticEl) staticEl.classList.remove("tooth-hidden");
+              if (fixedEl) fixedEl.classList.add("tooth-hidden");
             },
             onEnterBack: () => {
               // Scrolling back up: Instant reverse swap!
-              // Force static tooth to 0 and instantly show the fixed tooth at 100% opacity to prevent delay
+              // Force static tooth to hidden and instantly show the fixed tooth to prevent delay
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
-              if (fixedEl) fixedEl.style.setProperty("opacity", "1");
+              if (staticEl) staticEl.classList.add("tooth-hidden");
+              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
             },
             onLeaveBack: () => {
               // Scrolled back up into the Hero: Instantly hide everything
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
-              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+              if (staticEl) staticEl.classList.add("tooth-hidden");
+              if (fixedEl) fixedEl.classList.add("tooth-hidden");
             }
           },
         });
@@ -155,9 +155,9 @@ export default function FloatingTeeth() {
               const toothImg = document.getElementById("doctor-tooth-img");
               const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
 
-              if (emptyImg) emptyImg.style.setProperty("opacity", "1", "important");
-              if (toothImg) toothImg.style.setProperty("opacity", "0", "important");
-              if (fixedEl) fixedEl.style.removeProperty("opacity");
+              if (emptyImg) emptyImg.classList.remove("tooth-hidden");
+              if (toothImg) toothImg.classList.add("tooth-hidden");
+              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
             },
             onLeave: () => {
               // Reached landing point scrolling down: Instant swap!
@@ -165,9 +165,9 @@ export default function FloatingTeeth() {
               const toothImg = document.getElementById("doctor-tooth-img");
               const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
 
-              if (emptyImg) emptyImg.style.setProperty("opacity", "0", "important");
-              if (toothImg) toothImg.style.setProperty("opacity", "1", "important");
-              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+              if (emptyImg) emptyImg.classList.add("tooth-hidden");
+              if (toothImg) toothImg.classList.remove("tooth-hidden");
+              if (fixedEl) fixedEl.classList.add("tooth-hidden");
             },
             onEnterBack: () => {
               // Scrolling back up: Instant reverse swap!
@@ -175,9 +175,9 @@ export default function FloatingTeeth() {
               const toothImg = document.getElementById("doctor-tooth-img");
               const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
 
-              if (emptyImg) emptyImg.style.setProperty("opacity", "1", "important");
-              if (toothImg) toothImg.style.setProperty("opacity", "0", "important");
-              if (fixedEl) fixedEl.style.setProperty("opacity", "1");
+              if (emptyImg) emptyImg.classList.remove("tooth-hidden");
+              if (toothImg) toothImg.classList.add("tooth-hidden");
+              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
             },
             onLeaveBack: () => {
               // Scrolled back up into the Hero: Instantly hide everything
@@ -185,9 +185,9 @@ export default function FloatingTeeth() {
               const toothImg = document.getElementById("doctor-tooth-img");
               const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
 
-              if (emptyImg) emptyImg.style.setProperty("opacity", "1", "important");
-              if (toothImg) toothImg.style.setProperty("opacity", "0", "important");
-              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+              if (emptyImg) emptyImg.classList.remove("tooth-hidden");
+              if (toothImg) toothImg.classList.add("tooth-hidden");
+              if (fixedEl) fixedEl.classList.add("tooth-hidden");
             }
           },
         });
@@ -310,7 +310,7 @@ export default function FloatingTeeth() {
       <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[30]">
         {/* Left Tooth: Foreground Bokeh (Bottom-Left) · Large, elevated, blurred, solid opacity */}
         <div 
-          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-64 h-64 md:w-80 md:h-80 blur-[6px] opacity-0"
+          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-64 h-64 md:w-80 md:h-80 blur-[6px] tooth-hidden"
         >
           <div className="relative w-full h-full">
             <Image
@@ -326,7 +326,7 @@ export default function FloatingTeeth() {
         {/* Right Tooth: Foreground Mid-Small (Top-Right) · Large (25% increase), elevated, sharper, solid opacity */}
         {/* Starts on the right side, lands inside the doctor's hand! */}
         <div 
-          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-[60px] h-[60px] md:w-20 md:h-20 blur-[3px] opacity-0"
+          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-[60px] h-[60px] md:w-20 md:h-20 blur-[3px] tooth-hidden"
         >
           <div className="relative w-full h-full">
             <Image

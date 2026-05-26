@@ -104,3 +104,10 @@ body.scroll-jumping .floating-tooth-el {
   opacity: 0 !important;
   display: none !important;
 }
+
+/* Utility class to cleanly hide elements with GPU acceleration */
+.tooth-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.5s ease-in-out !important; /* Smooth fade for static elements */
+}

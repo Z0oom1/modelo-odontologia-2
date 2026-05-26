@@ -122,7 +122,7 @@ export default function Home() {
                       We'll fade it to 100% opacity exactly when the floating tooth lands! */}
                   <div 
                     id="sobre-tooth-static" 
-                    className="w-full h-full relative opacity-0"
+                    className="w-full h-full relative tooth-hidden"
                   >
                     <Image
                       src="/dente.png"
@@ -323,7 +323,7 @@ export default function Home() {
                     src="/doutor-com-dente.png" 
                     alt="Dr. João Silva com dente - myTooth" 
                     fill 
-                    className="object-cover absolute inset-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
+                    className="object-cover absolute inset-0 tooth-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
                     priority
                   />
 
