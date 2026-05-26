@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Logo from "@/components/Logo";
 import { ArrowUpRight, Sparkle } from "@phosphor-icons/react";
 
 export default function Hero() {
@@ -106,9 +107,9 @@ export default function Hero() {
 
       {/* 2. Embedded Premium Header */}
       <header className="hero-nav relative z-20 w-full max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-light tracking-[0.2em] text-lg text-white">
-          <Sparkle size={18} weight="light" className="text-white/80 animate-pulse" />
-          <span>HONORATO</span>
+        <div className="flex items-center gap-3">
+          <Logo onlyIcon iconClassName="w-10 h-10 md:w-11 md:h-11" />
+          <span className="text-sm md:text-base font-light tracking-[0.25em] text-white select-none">myTooth</span>
         </div>
         
         {/* Desktop Single Line Navigation - Standard height cap under 80px */}

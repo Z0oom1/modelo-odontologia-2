@@ -3,6 +3,7 @@
 import SmoothScroll from "@/components/SmoothScroll";
 import Hero from "@/components/Hero";
 import CameraScrollSection from "@/components/CameraScrollSection";
+import Logo from "@/components/Logo";
 import { Sparkle, Phone, Envelope, MapPin, ArrowRight } from "@phosphor-icons/react";
 import { FormEvent, useState } from "react";
 
@@ -37,7 +38,7 @@ export default function Home() {
                 Microscopia de alta precisão e materiais <span className="italic font-serif text-neutral-800">100% biocompatíveis</span>.
               </h2>
               <p className="text-sm md:text-base font-light text-neutral-500 leading-relaxed max-w-[55ch] mb-8">
-                No estúdio Honorato, cada elemento anatômico é restaurado respeitando os preceitos da biomimética dentária. Operamos sob magnificação óptica avançada, preservando a estrutura saudável de forma ultra-conservadora, livre de componentes metálicos prejudiciais à saúde sistêmica.
+                No estúdio myTooth, cada elemento anatômico é restaurado respeitando os preceitos da biomimética dentária. Operamos sob magnificação óptica avançada, preservando a estrutura saudável de forma ultra-conservadora, livre de componentes metálicos prejudiciais à saúde sistêmica.
               </p>
               
               <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-neutral-400">
@@ -127,7 +128,7 @@ export default function Home() {
                     <Envelope size={18} weight="light" />
                   </div>
                   <div className="text-xs md:text-sm tracking-wide text-neutral-600 font-light">
-                    atendimento@honoratoestudio.com.br
+                    atendimento@mytooth.com.br
                   </div>
                 </div>
 
@@ -142,7 +143,7 @@ export default function Home() {
               </div>
 
               <div className="text-[10px] font-mono tracking-widest text-neutral-400">
-                CRORS 12345 · RT: DR. JOÃO HONORATO
+                CROSP 12345 · RT: DR. JOÃO SILVA
               </div>
             </div>
 
@@ -245,12 +246,9 @@ export default function Home() {
         <footer className="w-full bg-neutral-950 text-white py-16 md:py-24 z-10">
           <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-12 border-b border-white/10 pb-16">
             
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2 font-light tracking-[0.2em] text-lg">
-                <Sparkle size={18} weight="light" className="text-white/80 animate-pulse" />
-                <span>HONORATO</span>
-              </div>
-              <p className="text-xs font-light text-white/50 max-w-[28ch] leading-relaxed">
+            <div className="flex flex-col items-start gap-3">
+              <Logo dark iconClassName="w-12 h-12" className="items-start text-left scale-90 -ml-4" />
+              <p className="text-xs font-light text-white/50 max-w-[28ch] leading-relaxed mt-2">
                 Estúdio de odontologia microscópica e saúde integrativa sistêmica.
               </p>
             </div>
@@ -264,7 +262,7 @@ export default function Home() {
           </div>
 
           <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono tracking-widest text-white/40">
-            <span>© {new Date().getFullYear()} HONORATO ESTÚDIO DENTAL. TODOS OS DIREITOS RESERVADOS.</span>
+            <span>© {new Date().getFullYear()} MYTOOTH CLÍNICA ODONTOLÓGICA. TODOS OS DIREITOS RESERVADOS.</span>
             <span>DESIGN BY ANTIGRAVITY</span>
           </div>
         </footer>

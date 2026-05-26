@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Honorato | Odontologia Estética & Biomimética",
+  title: "myTooth | Clínica Odontológica Premium",
   description: "Estúdio odontológico premium especializado em sorrisos harmônicos e biocompatíveis. Alinhadores invisíveis, lentes liquid glass e reabilitação biológica sob medida.",
 };
 
