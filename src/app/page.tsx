@@ -4,7 +4,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Hero from "@/components/Hero";
 import CameraScrollSection from "@/components/CameraScrollSection";
 import Logo from "@/components/Logo";
-import { Sparkle, Phone, Envelope, MapPin, ArrowRight } from "@phosphor-icons/react";
+import { Sparkle, Phone, Envelope, MapPin, ArrowRight, Eye, ShieldCheck, Pulse } from "@phosphor-icons/react";
 import { FormEvent, useState } from "react";
 
 export default function Home() {
@@ -92,6 +92,69 @@ export default function Home() {
         {/* 3. Pinned Scroll Camera Slider */}
         <section id="especialidades" className="relative w-full z-20">
           <CameraScrollSection />
+        </section>
+
+        {/* 3.B. Seção de Diferenciais Tecnológicos & Biologia Integrativa */}
+        <section id="tecnologia" className="relative w-full py-24 md:py-36 bg-[#FCFCFA] z-10 border-t border-neutral-900/5">
+          <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12">
+            
+            <div className="max-w-[75ch] mb-16 md:mb-24">
+              <span className="text-[10px] tracking-[0.25em] font-light text-neutral-400 block mb-4 uppercase">
+                ENGENHARIA INTEGRATIVA
+              </span>
+              <h2 className="text-3xl md:text-5xl font-light tracking-tighter text-neutral-900 leading-[1.1]">
+                Nossa tecnologia redefine a <span className="italic font-serif text-neutral-800">micro-precisão</span> biológica.
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              {/* Zeiss Microscope Card */}
+              <div className="liquid-glass rounded-3xl p-8 md:p-10 flex flex-col justify-between aspect-[1.1] md:aspect-square">
+                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-lg">
+                  <Eye size={22} weight="light" />
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-light tracking-tight text-neutral-900 mb-3">
+                    Microscopia Zeiss
+                  </h3>
+                  <p className="text-xs md:text-sm font-light text-neutral-500 leading-relaxed">
+                    Operamos sob magnificação óptica Zeiss de até 40x. Isso possibilita enxergar micro-fissuras, margens e detalhes invisíveis a olho nu, garantindo preparos ultra-conservadores e vedamento impecável.
+                  </p>
+                </div>
+              </div>
+
+              {/* Safe Amalgam Card */}
+              <div className="liquid-glass rounded-3xl p-8 md:p-10 flex flex-col justify-between aspect-[1.1] md:aspect-square">
+                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-lg">
+                  <ShieldCheck size={22} weight="light" />
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-light tracking-tight text-neutral-900 mb-3">
+                    Remoção Segura de Mercúrio
+                  </h3>
+                  <p className="text-xs md:text-sm font-light text-neutral-500 leading-relaxed">
+                    Substituímos restaurações de amálgama cinza antigas seguindo rigorosamente os protocols internacionais de segurança (IAOMT). Proteção total das vias aéreas e barreiras químicas contra vapores de mercúrio.
+                  </p>
+                </div>
+              </div>
+
+              {/* Ozonioterapia Card */}
+              <div className="liquid-glass rounded-3xl p-8 md:p-10 flex flex-col justify-between aspect-[1.1] md:aspect-square">
+                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-white shadow-lg">
+                  <Pulse size={22} weight="light" />
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-light tracking-tight text-neutral-900 mb-3">
+                    Ozonioterapia e Laser
+                  </h3>
+                  <p className="text-xs md:text-sm font-light text-neutral-500 leading-relaxed">
+                    Utilizamos ozônio medicinal gasoso para desinfecção biológica avançada e bioestimulação celular. Associado à laserterapia de baixa intensidade, aceleramos drasticamente a cicatrização pós-cirúrgica.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </section>
 
         {/* 4. Elegant Contact / Scheduling Section with Liquid Glass Forms */}
@@ -263,7 +326,7 @@ export default function Home() {
 
           <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono tracking-widest text-white/40">
             <span>© {new Date().getFullYear()} MYTOOTH CLÍNICA ODONTOLÓGICA. TODOS OS DIREITOS RESERVADOS.</span>
-            <span>DESIGN BY ANTIGRAVITY</span>
+            <span>DESIGN BY CRdev</span>
           </div>
         </footer>
 
