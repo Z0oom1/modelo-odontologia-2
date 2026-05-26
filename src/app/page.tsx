@@ -116,7 +116,7 @@ export default function Home() {
                 {/* Real DOM Slot: This is the target box where the floating tooth will dock! */}
                 <div 
                   id="sobre-tooth-slot" 
-                  className="w-48 h-48 md:w-60 md:h-60 relative flex items-center justify-center"
+                  className="w-48 h-48 md:w-64 md:h-64 relative flex items-center justify-center"
                 >
                   {/* Static Tooth Image inside the slot, initially invisible (opacity-0)
                       We'll fade it to 100% opacity exactly when the floating tooth lands! */}
@@ -128,7 +128,7 @@ export default function Home() {
                       src="/dente.png"
                       alt="Tooth Clean Docked"
                       fill
-                      className="object-contain blur-[1px]"
+                      className="object-contain blur-none"
                       priority
                     />
                   </div>

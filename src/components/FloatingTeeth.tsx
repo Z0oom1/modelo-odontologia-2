@@ -50,7 +50,7 @@ export default function FloatingTeeth() {
         );
 
         // Left: Parabolic descend to land exactly inside the DOM slot!
-        // We use function-based values so GSAP automatically computes responsive coordinates on resize!
+        // We make it complete its movement at scroll progress 0.95 so it is perfectly static during the opacity swap
         tlLeft.fromTo(
           ".floating-tooth-1",
           { x: "0px", y: "0px", rotate: -30, scale: 0.9 },
@@ -85,7 +85,7 @@ export default function FloatingTeeth() {
             rotate: 0,
             scale: 1.0,
             ease: "power1.inOut",
-            duration: 1.0
+            duration: 0.95  // Reaches target coordinates at 0.95!
           },
           0
         );
