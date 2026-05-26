@@ -330,7 +330,7 @@ export default function Home() {
                   {/* Absolute Target Slot for the descending right tooth */}
                   <div 
                     id="doctor-tooth-slot"
-                    className="absolute top-[62%] left-[45%] w-16 h-16 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    className="absolute top-[58%] left-[45%] w-[60px] h-[60px] md:w-20 md:h-20 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
                   />
                 </div>
               </div>

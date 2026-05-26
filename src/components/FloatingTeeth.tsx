@@ -293,10 +293,10 @@ export default function FloatingTeeth() {
           </div>
         </div>
 
-        {/* Right Tooth: Foreground Mid-Small (Top-Right) · Small, elevated, blurred, solid opacity */}
+        {/* Right Tooth: Foreground Mid-Small (Top-Right) · Large (25% increase), elevated, sharper, solid opacity */}
         {/* Starts on the right side, lands inside the doctor's hand! */}
         <div 
-          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-12 h-12 md:w-16 md:h-16 blur-[5px] opacity-0"
+          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-[60px] h-[60px] md:w-20 md:h-20 blur-[3px] opacity-0"
         >
           <div className="relative w-full h-full">
             <Image
