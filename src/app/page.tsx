@@ -109,7 +109,7 @@ export default function Home() {
             
             {/* Left: Premium Empty-Image Frame (Target for the descending Tooth 1) */}
             <div className="lg:col-span-5 flex items-center justify-center">
-              <div id="sobre-tooth-target-container" className="sobre-tooth-target-container w-full max-w-[400px] aspect-square relative rounded-3xl border border-neutral-900/5 bg-[#FDFDFB] flex items-center justify-center shadow-xl">
+              <div className="sobre-tooth-target-container w-full max-w-[400px] aspect-square relative rounded-3xl border border-neutral-900/5 bg-[#FDFDFB] flex items-center justify-center shadow-xl">
                 {/* Visual marker of the slot: elegant dashed thin ring */}
                 <div className="absolute inset-8 rounded-full border border-dashed border-neutral-900/5 animate-[spin_120s_linear_infinite]" />
                 
@@ -305,7 +305,7 @@ export default function Home() {
 
             {/* Right: Premium Portrait in Liquid Glass Frame */}
             <div className="lg:col-span-5 flex items-center justify-center order-1 lg:order-2">
-              <div id="doctor-portrait-container" className="liquid-glass rounded-3xl p-4 md:p-6 w-full max-w-[420px] aspect-[4/5] relative overflow-hidden select-none shadow-xl">
+              <div className="liquid-glass rounded-3xl p-4 md:p-6 w-full max-w-[420px] aspect-[4/5] relative overflow-hidden select-none shadow-xl">
                 <div className="relative w-full h-full rounded-2xl overflow-hidden bg-neutral-100">
                   {/* Doctor Image without Tooth (Default State) */}
                   <Image 
