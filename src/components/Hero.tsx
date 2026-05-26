@@ -99,7 +99,11 @@ export default function Hero() {
           className="hero-video-bg absolute inset-0 w-full h-full object-cover scale-105 opacity-80"
         >
           <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-white-liquid-abstract-background-34241-large.mp4"
+            src="/background.webm"
+            type="video/webm"
+          />
+          <source
+            src="/background.mp4"
             type="video/mp4"
           />
         </video>
