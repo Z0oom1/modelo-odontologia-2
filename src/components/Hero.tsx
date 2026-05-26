@@ -119,6 +119,7 @@ export default function Hero() {
         {/* Desktop Single Line Navigation - Standard height cap under 80px */}
         <nav className="hidden md:flex items-center gap-10 text-xs tracking-[0.15em] font-light text-white/70">
           <a href="#estudio" className="hover:text-white transition-colors duration-300">ESTÚDIO</a>
+          <a href="#sobre" className="hover:text-white transition-colors duration-300">SOBRE</a>
           <a href="#especialidades" className="hover:text-white transition-colors duration-300">ESPECIALIDADES</a>
           <a href="#tecnologia" className="hover:text-white transition-colors duration-300">TECNOLOGIA</a>
           <a href="#contato" className="hover:text-white transition-colors duration-300">AGENDA</a>

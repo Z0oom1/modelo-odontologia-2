@@ -38,6 +38,21 @@ export default function FloatingTeeth() {
             end: "center center",     // Ends when #sobre is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
+            onLeave: () => {
+              // Lock the state when scrolled past the landing point (keeps the tooth fixed in the div)
+              // We use inline !important overrides to completely immunize against GSAP resize resets
+              const staticEl = document.getElementById("sobre-tooth-static");
+              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
+              if (staticEl) staticEl.style.setProperty("opacity", "1", "important");
+              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+            },
+            onEnterBack: () => {
+              // Unlock and let the scrub timeline take over when scrolling back up
+              const staticEl = document.getElementById("sobre-tooth-static");
+              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
+              if (staticEl) staticEl.style.removeProperty("opacity");
+              if (fixedEl) fixedEl.style.removeProperty("opacity");
+            }
           },
         });
 
