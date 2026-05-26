@@ -49,60 +49,22 @@ export default function FloatingTeeth() {
           0
         );
 
-        // 2. Parabolic Descending Arc Movements (using keyframes to create smooth sweeps)
-        // Tooth 1: Foreground Bokeh (Bottom-Left) · Large, z-[30] (in front of all divs)
+        // 2. Descending Movements (different vertical travel ranges for different speeds)
+        // They stay "mais para o canto" and drift slightly outwards to ensure zero overlap with content
+        
+        // Left Tooth (Tooth 1): Medium, elevated, blur-6px, opaque. Descends 60vh
         tl.fromTo(
           ".floating-tooth-1",
-          { x: "-25vw", y: "-20vh", rotate: -45, scale: 0.85 },
-          {
-            keyframes: [
-              { x: "5vw", y: "10vh", rotate: 5, scale: 1.05, ease: "power1.out" },
-              { x: "35vw", y: "45vh", rotate: 50, scale: 1.2, ease: "power1.in" }
-            ],
-            duration: 1.0
-          },
+          { y: "-10vh", x: "0vw", rotate: -30, scale: 0.9 },
+          { y: "50vh", x: "-2vw", rotate: 20, scale: 1.1, ease: "power1.inOut" },
           0
         );
 
-        // Tooth 2: Background Mid (Top-Right) · Medium-Large, z-[5] (passes behind all divs)
+        // Right Tooth (Tooth 2): Medium-Small, blur-7px, opaque. Descends 40vh (different speed)
         tl.fromTo(
           ".floating-tooth-2",
-          { x: "50vw", y: "-30vh", rotate: 35, scale: 0.75 },
-          {
-            keyframes: [
-              { x: "10vw", y: "10vh", rotate: 0, scale: 0.9, ease: "power1.out" },
-              { x: "-25vw", y: "60vh", rotate: -40, scale: 1.05, ease: "power1.in" }
-            ],
-            duration: 1.0
-          },
-          0
-        );
-
-        // Tooth 3: Foreground Deep (Mid-Left) · Small, z-[30] (in front of all divs)
-        tl.fromTo(
-          ".floating-tooth-3",
-          { x: "-25vw", y: "-15vh", rotate: -60, scale: 0.6 },
-          {
-            keyframes: [
-              { x: "5vw", y: "18vh", rotate: 5, scale: 0.75, ease: "power1.out" },
-              { x: "25vw", y: "50vh", rotate: 70, scale: 0.9, ease: "power1.in" }
-            ],
-            duration: 1.0
-          },
-          0
-        );
-
-        // Tooth 4: Background Deepest (Bottom-Right) · Very small, z-[5] (passes behind all divs)
-        tl.fromTo(
-          ".floating-tooth-4",
-          { x: "45vw", y: "-25vh", rotate: 45, scale: 0.5 },
-          {
-            keyframes: [
-              { x: "5vw", y: "12vh", rotate: -10, scale: 0.65, ease: "power1.out" },
-              { x: "-15vw", y: "55vh", rotate: -55, scale: 0.75, ease: "power1.in" }
-            ],
-            duration: 1.0
-          },
+          { y: "-15vh", x: "0vw", rotate: 25, scale: 0.8 },
+          { y: "25vh", x: "2vw", rotate: -15, scale: 1.0, ease: "power1.inOut" },
           0
         );
 
@@ -127,17 +89,18 @@ export default function FloatingTeeth() {
 
   return (
     <div ref={containerRef}>
-      {/* A. Background Teeth Container (z-[5])
-          This sits below all page sections (z-10 and z-20), so the right-side teeth pass behind them */}
+      {/* Background Teeth Container (z-[5])
+          This sits below all page sections (z-10 and z-20), so the teeth pass behind all content and stats */}
       <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[5]">
-        {/* Tooth 2: Foreground Mid (Top-Right) · Medium-Large, blurred, solid opacity */}
+        
+        {/* Left Tooth: Foreground Bokeh (Bottom-Left) · Medium, elevated, blurred, solid opacity */}
         <div 
-          className="floating-tooth-el floating-tooth-2 absolute top-[10vh] right-[-5vw] w-48 h-48 md:w-60 md:h-60 blur-[5px] opacity-0"
+          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-48 h-48 md:w-64 md:h-64 blur-[6px] opacity-0"
         >
           <div className="relative w-full h-full">
             <Image
               src="/dente.png"
-              alt="Tooth Mid Foreground"
+              alt="Tooth Left Background"
               fill
               className="object-contain"
               priority
@@ -145,33 +108,14 @@ export default function FloatingTeeth() {
           </div>
         </div>
 
-        {/* Tooth 4: Background Deepest (Bottom-Right) · Very small, unblurred, solid opacity */}
+        {/* Right Tooth: Foreground Mid (Top-Right) · Medium-Small, blurred, solid opacity */}
         <div 
-          className="floating-tooth-el floating-tooth-4 absolute bottom-[15vh] right-[8vw] w-16 h-16 md:w-20 md:h-20 blur-none opacity-0"
+          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-40 h-40 md:w-52 md:h-52 blur-[7px] opacity-0"
         >
           <div className="relative w-full h-full">
             <Image
               src="/dente.png"
-              alt="Tooth Deepest Background"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* B. Foreground Teeth Container (z-[30])
-          This sits above all page sections (z-10 and z-20), so the left-side teeth pass in front of everything */}
-      <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[30]">
-        {/* Tooth 1: Foreground Bokeh (Bottom-Left) · Large, sharpened to be more visible, 20% higher up, solid opacity */}
-        <div 
-          className="floating-tooth-el floating-tooth-1 absolute bottom-[25vh] left-[-8vw] w-72 h-72 md:w-96 md:h-96 blur-[3px] opacity-0"
-        >
-          <div className="relative w-full h-full">
-            <Image
-              src="/dente.png"
-              alt="Tooth Bokeh Foreground"
+              alt="Tooth Right Background"
               fill
               className="object-contain"
               priority
@@ -179,20 +123,6 @@ export default function FloatingTeeth() {
           </div>
         </div>
 
-        {/* Tooth 3: Background Deep (Mid-Left) · Small, lightly blurred, solid opacity */}
-        <div 
-          className="floating-tooth-el floating-tooth-3 absolute top-[40vh] left-[6vw] w-28 h-28 md:w-36 md:h-36 blur-[1.2px] opacity-0"
-        >
-          <div className="relative w-full h-full">
-            <Image
-              src="/dente.png"
-              alt="Tooth Deep Background"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-        </div>
       </div>
     </div>
   );
