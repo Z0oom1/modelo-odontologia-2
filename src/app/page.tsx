@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Hero from "@/components/Hero";
 import CameraScrollSection from "@/components/CameraScrollSection";
 import Logo from "@/components/Logo";
+import Image from "next/image";
 import { Sparkle, Phone, Envelope, MapPin, ArrowRight, Eye, ShieldCheck, Pulse } from "@phosphor-icons/react";
 import { FormEvent, useState } from "react";
 
@@ -50,13 +51,24 @@ export default function Home() {
             {/* Right: Premium Statistics Bento-Grid (3 elements, fully proportional) */}
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
               
-              <div className="liquid-glass rounded-3xl p-8 flex flex-col justify-between aspect-[1.1]">
-                <span className="text-sm font-mono text-neutral-400">01 / LENTES</span>
-                <div>
-                  <div className="text-3xl md:text-4xl font-light tracking-tight text-neutral-900 mb-2">0.08 mm</div>
-                  <p className="text-xs font-light text-neutral-400 leading-relaxed">
-                    Espessura ultra-conservadora das nossas lentes microscópicas feldspáticas.
-                  </p>
+              <div className="liquid-glass rounded-3xl overflow-hidden relative flex flex-col justify-between aspect-[1.1]">
+                <div className="absolute inset-0 z-0 opacity-[0.14] select-none pointer-events-none">
+                  <Image 
+                    src="/veneers.png" 
+                    alt="Porcelana myTooth"
+                    fill 
+                    className="object-cover scale-110" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#FCFCFA] via-transparent to-transparent" />
+                </div>
+                <div className="relative z-10 p-8 h-full flex flex-col justify-between">
+                  <span className="text-sm font-mono text-neutral-400">01 / LENTES</span>
+                  <div>
+                    <div className="text-3xl md:text-4xl font-light tracking-tight text-neutral-900 mb-2">0.08 mm</div>
+                    <p className="text-xs font-light text-neutral-500 leading-relaxed">
+                      Espessura ultra-conservadora das nossas lentes microscópicas feldspáticas.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -154,6 +166,80 @@ export default function Home() {
               </div>
             </div>
 
+          </div>
+        </section>
+
+        {/* 3.C. Seção de Corpo Clínico / Direção Técnica */}
+        <section id="corpo-clinico" className="relative w-full py-24 md:py-36 bg-[#FCFCFA] z-10 border-t border-neutral-900/5">
+          <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
+            
+            {/* Left: Premium Portrait in Liquid Glass Frame */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="liquid-glass rounded-3xl p-4 md:p-6 w-full max-w-[420px] aspect-[4/5] relative overflow-hidden select-none shadow-xl">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                  <Image 
+                    src="/dentist.png" 
+                    alt="Dr. João Silva - Diretor Clínico da myTooth" 
+                    fill 
+                    className="object-cover hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]" 
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Dentist Info, Credentials, and Academic Formations */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              <span className="text-[10px] tracking-[0.25em] font-light text-neutral-400 block mb-4 uppercase">
+                DIREÇÃO CLÍNICA
+              </span>
+              <h2 className="text-3xl md:text-5xl font-light tracking-tighter text-neutral-900 leading-[1.1] mb-6">
+                Dr. João Silva
+              </h2>
+              <h3 className="text-sm md:text-base font-mono tracking-widest text-[#C5A880] uppercase mb-8">
+                RT: CROSP 12345 · Especialista em Odontologia Biomimética
+              </h3>
+              
+              <p className="text-sm md:text-base font-light text-neutral-500 leading-relaxed max-w-[55ch] mb-10">
+                Fundador da clínica myTooth, o Dr. João Silva é referência em reabilitação oral microscópica e procedimentos biológicos metal-free. Com mais de duas décadas de dedicação exclusiva, sua prática une precisão laboratorial, bio-compatibilidade sistêmica e uma refinada percepção artística para recriar a arquitetura natural do sorriso.
+              </p>
+
+              {/* Formations list - Spaced, premium metadata rows */}
+              <div className="space-y-6 border-t border-neutral-900/5 pt-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-2 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Especialista em Dentística Restauradora e Biomimética</h4>
+                    <p className="text-xs text-neutral-400 mt-1">Faculdade de Odontologia da Universidade de São Paulo · USP</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-2 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Mestrado em Odontologia Estética e Reabilitação Oral</h4>
+                    <p className="text-xs text-neutral-400 mt-1">New York University College of Dentistry · NYU (EUA)</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-2 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Membro Ativo e Certificado pela IAOMT</h4>
+                    <p className="text-xs text-neutral-400 mt-1">International Academy of Oral Medicine and Toxicology (EUA) · Protocolo Safe Amalgam Removal</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-2 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Pioneiro em Microscopia Clínica Aplicada</h4>
+                    <p className="text-xs text-neutral-400 mt-1">Pesquisador e mentor em preparos micro-invasivos sob magnificação Zeiss de alta resolução</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </section>
 
