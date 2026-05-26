@@ -21,9 +21,10 @@ export default function FloatingTeeth() {
         const estudioEl = document.getElementById("estudio");
         const sobreEl = document.getElementById("sobre");
         const tecnologiaEl = document.getElementById("tecnologia");
+        const corpoClinicoEl = document.getElementById("corpo-clinico");
 
-        if (!estudioEl || !sobreEl || !tecnologiaEl) {
-          console.warn("FloatingTeeth triggers not found in DOM:", { estudioEl, sobreEl, tecnologiaEl });
+        if (!estudioEl || !sobreEl || !tecnologiaEl || !corpoClinicoEl) {
+          console.warn("FloatingTeeth triggers not found in DOM:", { estudioEl, sobreEl, tecnologiaEl, corpoClinicoEl });
           return;
         }
 
@@ -139,6 +140,127 @@ export default function FloatingTeeth() {
         );
 
 
+        // 2. RIGHT TOOTH TIMELINE: Lands exactly in the doctor's pinched hand inside #corpo-clinico
+        const tlRight = gsap.timeline({
+          scrollTrigger: {
+            trigger: estudioEl,
+            endTrigger: corpoClinicoEl,
+            start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport
+            end: "center center",     // Ends when #corpo-clinico is centered in viewport (landing point)
+            scrub: scrubSpeed,
+            invalidateOnRefresh: true,
+            onEnter: () => {
+              // Scrolling down: Clear forced states
+              const emptyImg = document.getElementById("doctor-empty-img");
+              const toothImg = document.getElementById("doctor-tooth-img");
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+
+              if (emptyImg) emptyImg.style.setProperty("opacity", "1", "important");
+              if (toothImg) toothImg.style.setProperty("opacity", "0", "important");
+              if (fixedEl) fixedEl.style.removeProperty("opacity");
+            },
+            onLeave: () => {
+              // Reached landing point scrolling down: Instant swap!
+              const emptyImg = document.getElementById("doctor-empty-img");
+              const toothImg = document.getElementById("doctor-tooth-img");
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+
+              if (emptyImg) emptyImg.style.setProperty("opacity", "0", "important");
+              if (toothImg) toothImg.style.setProperty("opacity", "1", "important");
+              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+            },
+            onEnterBack: () => {
+              // Scrolling back up: Instant reverse swap!
+              const emptyImg = document.getElementById("doctor-empty-img");
+              const toothImg = document.getElementById("doctor-tooth-img");
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+
+              if (emptyImg) emptyImg.style.setProperty("opacity", "1", "important");
+              if (toothImg) toothImg.style.setProperty("opacity", "0", "important");
+              if (fixedEl) fixedEl.style.setProperty("opacity", "1");
+            },
+            onLeaveBack: () => {
+              // Scrolled back up into the Hero: Instantly hide everything
+              const emptyImg = document.getElementById("doctor-empty-img");
+              const toothImg = document.getElementById("doctor-tooth-img");
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+
+              if (emptyImg) emptyImg.style.setProperty("opacity", "1", "important");
+              if (toothImg) toothImg.style.setProperty("opacity", "0", "important");
+              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+            }
+          },
+        });
+
+        // Right: Gradual fade-in as it glides from off-screen (first 15% of scroll)
+        tlRight.fromTo(
+          ".floating-tooth-2",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.15, ease: "power1.inOut" },
+          0
+        );
+
+        // Right: Glide horizontally (x) in a mirror parabolic curve entering from off-screen right
+        tlRight.fromTo(
+          ".floating-tooth-2",
+          { x: "35vw" },
+          {
+            x: () => {
+              const toothEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              const slotEl = document.getElementById("doctor-tooth-slot");
+              if (!toothEl || !slotEl) return 0;
+
+              // Temporarily clear active GSAP transforms to measure true untransformed bounding rect
+              const prevTransform = toothEl.style.transform;
+              toothEl.style.transform = "none";
+              const toothRect = toothEl.getBoundingClientRect();
+              const slotRect = slotEl.getBoundingClientRect();
+              toothEl.style.transform = prevTransform;
+
+              return slotRect.left - toothRect.left;
+            },
+            ease: "power2.out", // Decelerate horizontally for gentle docking
+            duration: 1.0
+          },
+          0
+        );
+
+        // Right: Glide vertically (y), rotate and scale in a beautiful parabolic arc landing exactly in the doctor's hand
+        tlRight.fromTo(
+          ".floating-tooth-2",
+          { y: "-10vh", rotate: 30, scale: 0.9 },
+          {
+            y: () => {
+              const toothEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              const slotEl = document.getElementById("doctor-tooth-slot");
+              const corpoClinicoEl = document.getElementById("corpo-clinico");
+              if (!toothEl || !slotEl || !corpoClinicoEl) return 0;
+
+              // Temporarily clear active GSAP transforms to measure true untransformed bounding rect
+              const prevTransform = toothEl.style.transform;
+              toothEl.style.transform = "none";
+              const toothRect = toothEl.getBoundingClientRect();
+              const slotRect = slotEl.getBoundingClientRect();
+              const corpoClinicoRect = corpoClinicoEl.getBoundingClientRect();
+              toothEl.style.transform = prevTransform;
+
+              // Calculate relative vertical offset of slot within #corpo-clinico section
+              const slotOffset = slotRect.top - corpoClinicoRect.top;
+
+              // Target top of slot inside viewport when #corpo-clinico center is at viewport center
+              const targetTop = (window.innerHeight / 2) - (corpoClinicoRect.height / 2) + slotOffset;
+
+              return targetTop - toothRect.top;
+            },
+            rotate: 0,
+            scale: 1.0,
+            ease: "power2.inOut", // Smooth acceleration/deceleration for vertical docking
+            duration: 1.0
+          },
+          0
+        );
+
+
         // Force immediate calculation and lock triggers in position
         ScrollTrigger.refresh();
 
@@ -164,6 +286,22 @@ export default function FloatingTeeth() {
             <Image
               src="/dente.png"
               alt="Tooth Left Foreground"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>
+
+        {/* Right Tooth: Foreground Mid-Small (Top-Right) · Small, elevated, blurred, solid opacity */}
+        {/* Starts on the right side, lands inside the doctor's hand! */}
+        <div 
+          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-12 h-12 md:w-16 md:h-16 blur-[5px] opacity-0"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/dente.png"
+              alt="Tooth Right Foreground"
               fill
               className="object-contain"
               priority

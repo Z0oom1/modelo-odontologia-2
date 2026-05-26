@@ -251,23 +251,8 @@ export default function Home() {
         <section id="corpo-clinico" className="relative w-full py-24 md:py-36 bg-[#FCFCFA] z-10 border-t border-neutral-900/5">
           <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
             
-            {/* Left: Premium Portrait in Liquid Glass Frame */}
-            <div className="lg:col-span-5 flex items-center justify-center">
-              <div className="liquid-glass rounded-3xl p-4 md:p-6 w-full max-w-[420px] aspect-[4/5] relative overflow-hidden select-none shadow-xl">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                  <Image 
-                    src="/dentist.png" 
-                    alt="Dr. João Silva - Diretor Clínico da myTooth" 
-                    fill 
-                    className="object-cover hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]" 
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Dentist Info, Credentials, and Academic Formations */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
+            {/* Left: Dentist Info, Credentials, and Academic Formations */}
+            <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1">
               <span className="text-[10px] tracking-[0.25em] font-light text-neutral-400 block mb-4 uppercase">
                 DIREÇÃO CLÍNICA
               </span>
@@ -316,8 +301,41 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
             </div>
+
+            {/* Right: Premium Portrait in Liquid Glass Frame */}
+            <div className="lg:col-span-5 flex items-center justify-center order-1 lg:order-2">
+              <div className="liquid-glass rounded-3xl p-4 md:p-6 w-full max-w-[420px] aspect-[4/5] relative overflow-hidden select-none shadow-xl">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden bg-neutral-100">
+                  {/* Doctor Image without Tooth (Default State) */}
+                  <Image 
+                    id="doctor-empty-img"
+                    src="/doutor.png" 
+                    alt="Dr. João Silva - Diretor Clínico da myTooth" 
+                    fill 
+                    className="object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
+                    priority
+                  />
+
+                  {/* Doctor Image with Tooth (Docked State) */}
+                  <Image 
+                    id="doctor-tooth-img"
+                    src="/doutor-com-dente.png" 
+                    alt="Dr. João Silva com dente - myTooth" 
+                    fill 
+                    className="object-cover absolute inset-0 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
+                    priority
+                  />
+
+                  {/* Absolute Target Slot for the descending right tooth */}
+                  <div 
+                    id="doctor-tooth-slot"
+                    className="absolute top-[62%] left-[45%] w-16 h-16 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                  />
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
