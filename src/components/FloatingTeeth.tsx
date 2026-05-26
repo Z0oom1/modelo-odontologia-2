@@ -33,7 +33,7 @@ export default function FloatingTeeth() {
           scrollTrigger: {
             trigger: estudioEl,
             endTrigger: tecnologiaEl,
-            start: "top bottom",      // Starts when the top of #estudio enters the viewport (right after Hero)
+            start: "top top",         // Starts exactly when #estudio is fully in view (Hero is completely scrolled off)
             end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport (stays longer)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
@@ -52,7 +52,7 @@ export default function FloatingTeeth() {
         // 2. Descending Movements (different vertical travel ranges for different speeds)
         // They stay "mais para o canto" and drift slightly outwards to ensure zero overlap with content
         
-        // Left Tooth (Tooth 1): Medium, elevated, blur-6px, opaque. Descends 60vh
+        // Left Tooth (Tooth 1): Medium, elevated, blur-6px, opaque. Descends 60vh (Foreground z-[30])
         tl.fromTo(
           ".floating-tooth-1",
           { y: "-10vh", x: "0vw", rotate: -30, scale: 0.9 },
@@ -60,7 +60,7 @@ export default function FloatingTeeth() {
           0
         );
 
-        // Right Tooth (Tooth 2): Medium-Small, blur-7px, opaque. Descends 40vh (different speed)
+        // Right Tooth (Tooth 2): Medium-Small, blur-7px, opaque. Descends 40vh (Background z-[5])
         tl.fromTo(
           ".floating-tooth-2",
           { y: "-15vh", x: "0vw", rotate: 25, scale: 0.8 },
@@ -89,25 +89,9 @@ export default function FloatingTeeth() {
 
   return (
     <div ref={containerRef}>
-      {/* Background Teeth Container (z-[5])
-          This sits below all page sections (z-10 and z-20), so the teeth pass behind all content and stats */}
+      {/* A. Background Teeth Container (z-[5])
+          This sits below all page sections (z-10 and z-20), so the right-side tooth passes behind them */}
       <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[5]">
-        
-        {/* Left Tooth: Foreground Bokeh (Bottom-Left) · Medium, elevated, blurred, solid opacity */}
-        <div 
-          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-48 h-48 md:w-64 md:h-64 blur-[6px] opacity-0"
-        >
-          <div className="relative w-full h-full">
-            <Image
-              src="/dente.png"
-              alt="Tooth Left Background"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-        </div>
-
         {/* Right Tooth: Foreground Mid (Top-Right) · Medium-Small, blurred, solid opacity */}
         <div 
           className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-40 h-40 md:w-52 md:h-52 blur-[7px] opacity-0"
@@ -122,7 +106,25 @@ export default function FloatingTeeth() {
             />
           </div>
         </div>
+      </div>
 
+      {/* B. Foreground Teeth Container (z-[30])
+          This sits above all page sections (z-10 and z-20), so the left-side tooth passes in front of everything */}
+      <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[30]">
+        {/* Left Tooth: Foreground Bokeh (Bottom-Left) · Medium, elevated, blurred, solid opacity */}
+        <div 
+          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-48 h-48 md:w-64 md:h-64 blur-[6px] opacity-0"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/dente.png"
+              alt="Tooth Left Foreground"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
