@@ -27,7 +27,7 @@ export default function FloatingTeeth() {
           return;
         }
 
-        const scrubSpeed = 1.6;
+        const scrubSpeed = 0.2; // Tight, ultra-responsive scrub speed to prevent visual lag on fast scroll
 
         // 1. LEFT TOOTH TIMELINE: Lands exactly centered inside the #sobre section target slot
         const tlLeft = gsap.timeline({
@@ -38,6 +38,13 @@ export default function FloatingTeeth() {
             end: "center center",     // Ends when #sobre is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
+            onEnter: () => {
+              // Scrolling down from Hero: Clear forced states and let timeline handle it
+              const staticEl = document.getElementById("sobre-tooth-static");
+              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
+              if (staticEl) staticEl.style.removeProperty("opacity");
+              if (fixedEl) fixedEl.style.removeProperty("opacity");
+            },
             onLeave: () => {
               // Lock the state when scrolled past the landing point (keeps the tooth fixed in the div)
               // We use inline !important overrides to completely immunize against GSAP resize resets
@@ -52,6 +59,13 @@ export default function FloatingTeeth() {
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
               if (staticEl) staticEl.style.removeProperty("opacity");
               if (fixedEl) fixedEl.style.removeProperty("opacity");
+            },
+            onLeaveBack: () => {
+              // Scrolled back up into the Hero: Instantly hide everything to prevent any leakage
+              const staticEl = document.getElementById("sobre-tooth-static");
+              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
+              if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
+              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
             }
           },
         });
@@ -128,6 +142,26 @@ export default function FloatingTeeth() {
             end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport (stays longer)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
+            onEnter: () => {
+              // Clear forced state on entry
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              if (fixedEl) fixedEl.style.removeProperty("opacity");
+            },
+            onLeave: () => {
+              // Lock state at the end of scroll
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+            },
+            onEnterBack: () => {
+              // Clear forced state when coming back
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              if (fixedEl) fixedEl.style.removeProperty("opacity");
+            },
+            onLeaveBack: () => {
+              // Instantly hide in Hero section
+              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
+            }
           },
         });
 
