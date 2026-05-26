@@ -34,34 +34,34 @@ export default function FloatingTeeth() {
           scrollTrigger: {
             trigger: estudioEl,
             endTrigger: sobreEl,
-            start: "top top",         // Starts exactly when #estudio is fully in view (Hero is completely scrolled off)
+            start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport (smooth transition from Hero)
             end: "center center",     // Ends when #sobre is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
             onEnter: () => {
-              // Scrolling down from Hero: Clear forced states and let timeline handle it
+              // Scrolling down from Hero: Clear forced states and let timeline handle scrub fade-in
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.style.removeProperty("opacity");
+              if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
               if (fixedEl) fixedEl.style.removeProperty("opacity");
             },
             onLeave: () => {
-              // Lock the state when scrolled past the landing point (keeps the tooth fixed in the div)
-              // We use inline !important overrides to completely immunize against GSAP resize resets
+              // Reached landing point scrolling down: Instant swap!
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
               if (staticEl) staticEl.style.setProperty("opacity", "1", "important");
               if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
             },
             onEnterBack: () => {
-              // Unlock and let the scrub timeline take over when scrolling back up
+              // Scrolling back up: Instant reverse swap!
+              // Force static tooth to 0 and instantly show the fixed tooth at 100% opacity to prevent delay
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.style.removeProperty("opacity");
-              if (fixedEl) fixedEl.style.removeProperty("opacity");
+              if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
+              if (fixedEl) fixedEl.style.setProperty("opacity", "1");
             },
             onLeaveBack: () => {
-              // Scrolled back up into the Hero: Instantly hide everything to prevent any leakage
+              // Scrolled back up into the Hero: Instantly hide everything
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
               if (staticEl) staticEl.style.setProperty("opacity", "0", "important");
@@ -70,37 +70,57 @@ export default function FloatingTeeth() {
           },
         });
 
-        // Left: Fast Fade-in at the very beginning of the scroll timeline (first 5% of scroll)
+        // Left: Gradual fade-in as it glides from off-screen (first 15% of scroll)
         tlLeft.fromTo(
           ".floating-tooth-1",
           { opacity: 0 },
-          { opacity: 1, duration: 0.05, ease: "power1.inOut" },
+          { opacity: 1, duration: 0.15, ease: "power1.inOut" },
           0
         );
 
-        // Left: Parabolic descend to land exactly inside the DOM slot!
-        // We make it complete its movement at scroll progress 0.95 so it is perfectly static during the opacity swap
+        // Left: Glide horizontally (x) in an elegant curve entering from off-screen
         tlLeft.fromTo(
           ".floating-tooth-1",
-          { x: "0px", y: "0px", rotate: -30, scale: 0.9 },
+          { x: "-35vw" },
           {
             x: () => {
               const toothEl = document.querySelector(".floating-tooth-1") as HTMLElement;
               const slotEl = document.getElementById("sobre-tooth-static");
               if (!toothEl || !slotEl) return 0;
-              const slotRect = slotEl.getBoundingClientRect();
+              
+              // Temporarily clear active GSAP transforms to measure true untransformed bounding rect
+              const prevTransform = toothEl.style.transform;
+              toothEl.style.transform = "none";
               const toothRect = toothEl.getBoundingClientRect();
+              const slotRect = slotEl.getBoundingClientRect();
+              toothEl.style.transform = prevTransform;
+              
               return slotRect.left - toothRect.left;
             },
+            ease: "power2.out", // Smooth deceleration horizontally to dock gently
+            duration: 1.0
+          },
+          0
+        );
+
+        // Left: Glide vertically (y), rotate and scale in a beautiful parabolic arc landing exactly in the slot
+        tlLeft.fromTo(
+          ".floating-tooth-1",
+          { y: "-10vh", rotate: -30, scale: 0.9 },
+          {
             y: () => {
               const toothEl = document.querySelector(".floating-tooth-1") as HTMLElement;
               const slotEl = document.getElementById("sobre-tooth-static");
               const sobreEl = document.getElementById("sobre");
               if (!toothEl || !slotEl || !sobreEl) return 0;
 
-              const slotRect = slotEl.getBoundingClientRect();
+              // Temporarily clear active GSAP transforms to measure true untransformed bounding rect
+              const prevTransform = toothEl.style.transform;
+              toothEl.style.transform = "none";
               const toothRect = toothEl.getBoundingClientRect();
+              const slotRect = slotEl.getBoundingClientRect();
               const sobreRect = sobreEl.getBoundingClientRect();
+              toothEl.style.transform = prevTransform;
 
               // Calculate relative vertical offset of slot within #sobre section
               const slotOffset = slotRect.top - sobreRect.top;
@@ -108,28 +128,14 @@ export default function FloatingTeeth() {
               // Target top of slot inside viewport when #sobre center is at viewport center
               const targetTop = (window.innerHeight / 2) - (sobreRect.height / 2) + slotOffset;
 
-              // Return difference from default top position
               return targetTop - toothRect.top;
             },
             rotate: 0,
             scale: 1.0,
-            ease: "power1.inOut",
-            duration: 0.95  // Reaches target coordinates at 0.95!
+            ease: "power2.inOut", // Parabolic ease to drop gracefully and dock pixel-perfect
+            duration: 1.0
           },
           0
-        );
-
-        // Left: Seamless transition (swap opacities at the exact moment of landing, last 5% of scroll)
-        tlLeft.to(
-          ".floating-tooth-1",
-          { opacity: 0, duration: 0.05, ease: "none" },
-          0.95
-        );
-        tlLeft.fromTo(
-          "#sobre-tooth-static",
-          { opacity: 0 },
-          { opacity: 1, duration: 0.05, ease: "none" },
-          0.95
         );
 
 
@@ -138,7 +144,7 @@ export default function FloatingTeeth() {
           scrollTrigger: {
             trigger: estudioEl,
             endTrigger: tecnologiaEl,
-            start: "top top",         // Starts exactly when #estudio is fully in view (Hero is completely scrolled off)
+            start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport
             end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport (stays longer)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
