@@ -112,7 +112,7 @@ export default function Hero() {
       {/* 2. Embedded Premium Header */}
       <header className="hero-nav relative z-20 w-full max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Logo onlyIcon iconClassName="w-10 h-10 md:w-11 md:h-11" />
+          <Logo onlyIcon iconClassName="w-14 h-14 md:w-18 md:h-18" />
           <span className="text-sm md:text-base font-light tracking-[0.25em] text-white select-none">myTooth</span>
         </div>
         

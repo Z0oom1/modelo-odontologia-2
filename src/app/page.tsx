@@ -246,9 +246,9 @@ export default function Home() {
         <footer className="w-full bg-neutral-950 text-white py-16 md:py-24 z-10">
           <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-12 border-b border-white/10 pb-16">
             
-            <div className="flex flex-col items-start gap-3">
-              <Logo dark iconClassName="w-12 h-12" className="items-start text-left scale-90 -ml-4" />
-              <p className="text-xs font-light text-white/50 max-w-[28ch] leading-relaxed mt-2">
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <Logo dark iconClassName="w-20 h-20" className="scale-100" />
+              <p className="text-xs font-light text-white/50 max-w-[28ch] leading-relaxed mt-2 text-center md:text-left">
                 Estúdio de odontologia microscópica e saúde integrativa sistêmica.
               </p>
             </div>
