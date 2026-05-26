@@ -21,13 +21,13 @@ export default function FloatingTeeth() {
 
       if (!estudioEl || !tecnologiaEl) return;
 
-      // Master Timeline linked from top of #estudio to bottom of #tecnologia
+      // Master Timeline linked from top of #estudio to top of #tecnologia
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: estudioEl,
           endTrigger: tecnologiaEl,
-          start: "top bottom",      // Starts when the top of #estudio enters the viewport
-          end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport
+          start: "top bottom",      // Starts when the top of #estudio enters the viewport (right after Hero)
+          end: "top top",           // Ends when the top of #tecnologia reaches the top of the viewport (disappears in technology)
           scrub: scrubSpeed,
           invalidateOnRefresh: true,
         },
