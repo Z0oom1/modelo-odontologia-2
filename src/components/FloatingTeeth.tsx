@@ -35,9 +35,9 @@ export default function FloatingTeeth() {
           scrollTrigger: {
             id: "left-trigger",
             trigger: estudioEl,
-            endTrigger: sobreEl,
+            endTrigger: "#sobre-tooth-target-container",
             start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport (smooth transition from Hero)
-            end: "center center",     // Ends when #sobre is centered in viewport (landing point)
+            end: "center center",     // Ends when #sobre-tooth-target-container is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -112,21 +112,7 @@ export default function FloatingTeeth() {
               const slotRect = slotEl.getBoundingClientRect();
               toothEl.style.transform = prevTransform;
 
-              const trigger = ScrollTrigger.getById("left-trigger");
-              const endScroll = trigger ? trigger.end : 0;
-
-              if (!trigger || !endScroll) {
-                // Safe fallback: use old calculation during initialization/refresh
-                const sobreEl = document.getElementById("sobre");
-                if (!sobreEl) return 0;
-                const sobreRect = sobreEl.getBoundingClientRect();
-                const slotOffset = slotRect.top - sobreRect.top;
-                const targetTop = (window.innerHeight / 2) - (sobreRect.height / 2) + slotOffset;
-                return targetTop - toothRect.top;
-              }
-
-              const currentScroll = window.scrollY || document.documentElement.scrollTop;
-              return (slotRect.top + currentScroll - endScroll) - toothRect.top;
+              return (window.innerHeight / 2) - (slotRect.height / 2) - toothRect.top;
             },
             rotate: 0,
             scale: 1.0,
@@ -142,9 +128,9 @@ export default function FloatingTeeth() {
           scrollTrigger: {
             id: "right-trigger",
             trigger: estudioEl,
-            endTrigger: corpoClinicoEl,
+            endTrigger: "#doctor-portrait-container",
             start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport
-            end: "center center",     // Ends when #corpo-clinico is centered in viewport (landing point)
+            end: "center center",     // Ends when #doctor-portrait-container is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -223,21 +209,7 @@ export default function FloatingTeeth() {
               const slotRect = slotEl.getBoundingClientRect();
               toothEl.style.transform = prevTransform;
 
-              const trigger = ScrollTrigger.getById("right-trigger");
-              const endScroll = trigger ? trigger.end : 0;
-
-              if (!trigger || !endScroll) {
-                // Safe fallback: use old calculation during initialization/refresh
-                const corpoClinicoEl = document.getElementById("corpo-clinico");
-                if (!corpoClinicoEl) return 0;
-                const corpoClinicoRect = corpoClinicoEl.getBoundingClientRect();
-                const slotOffset = slotRect.top - corpoClinicoRect.top;
-                const targetTop = (window.innerHeight / 2) - (corpoClinicoRect.height / 2) + slotOffset;
-                return targetTop - toothRect.top;
-              }
-
-              const currentScroll = window.scrollY || document.documentElement.scrollTop;
-              return (slotRect.top + currentScroll - endScroll) - toothRect.top;
+              return (window.innerHeight / 2) - (slotRect.height / 2) - toothRect.top;
             },
             rotate: 0,
             scale: 1.0,
