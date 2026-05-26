@@ -13,23 +13,99 @@ export default function FloatingTeeth() {
 
     let ctx: gsap.Context | null = null;
 
-    // Defer ScrollTrigger creation to ensure sibling DOM nodes (#estudio and #tecnologia)
+    // Defer ScrollTrigger creation to ensure sibling DOM nodes (#estudio, #sobre and #tecnologia)
     // are fully rendered and painted by the browser on first paint
     const timer = setTimeout(() => {
       ctx = gsap.context(() => {
         // Find the trigger elements globally to bypass GSAP context scoping
         const estudioEl = document.getElementById("estudio");
+        const sobreEl = document.getElementById("sobre");
         const tecnologiaEl = document.getElementById("tecnologia");
 
-        if (!estudioEl || !tecnologiaEl) {
-          console.warn("FloatingTeeth triggers not found in DOM:", { estudioEl, tecnologiaEl });
+        if (!estudioEl || !sobreEl || !tecnologiaEl) {
+          console.warn("FloatingTeeth triggers not found in DOM:", { estudioEl, sobreEl, tecnologiaEl });
           return;
         }
 
         const scrubSpeed = 1.6;
 
-        // Master Timeline linked from top of #estudio to bottom of #tecnologia (stays longer on screen)
-        const tl = gsap.timeline({
+        // 1. LEFT TOOTH TIMELINE: Lands exactly centered inside the #sobre section target slot
+        const tlLeft = gsap.timeline({
+          scrollTrigger: {
+            trigger: estudioEl,
+            endTrigger: sobreEl,
+            start: "top top",         // Starts exactly when #estudio is fully in view (Hero is completely scrolled off)
+            end: "center center",     // Ends when #sobre is centered in viewport (landing point)
+            scrub: scrubSpeed,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // Left: Fast Fade-in at the very beginning of the scroll timeline (first 5% of scroll)
+        tlLeft.fromTo(
+          ".floating-tooth-1",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.05, ease: "power1.inOut" },
+          0
+        );
+
+        // Left: Parabolic descend to land exactly inside the DOM slot!
+        // We use function-based values so GSAP automatically computes responsive coordinates on resize!
+        tlLeft.fromTo(
+          ".floating-tooth-1",
+          { x: "0px", y: "0px", rotate: -30, scale: 0.9 },
+          {
+            x: () => {
+              const toothEl = document.querySelector(".floating-tooth-1") as HTMLElement;
+              const slotEl = document.getElementById("sobre-tooth-static");
+              if (!toothEl || !slotEl) return 0;
+              const slotRect = slotEl.getBoundingClientRect();
+              const toothRect = toothEl.getBoundingClientRect();
+              return slotRect.left - toothRect.left;
+            },
+            y: () => {
+              const toothEl = document.querySelector(".floating-tooth-1") as HTMLElement;
+              const slotEl = document.getElementById("sobre-tooth-static");
+              const sobreEl = document.getElementById("sobre");
+              if (!toothEl || !slotEl || !sobreEl) return 0;
+
+              const slotRect = slotEl.getBoundingClientRect();
+              const toothRect = toothEl.getBoundingClientRect();
+              const sobreRect = sobreEl.getBoundingClientRect();
+
+              // Calculate relative vertical offset of slot within #sobre section
+              const slotOffset = slotRect.top - sobreRect.top;
+
+              // Target top of slot inside viewport when #sobre center is at viewport center
+              const targetTop = (window.innerHeight / 2) - (sobreRect.height / 2) + slotOffset;
+
+              // Return difference from default top position
+              return targetTop - toothRect.top;
+            },
+            rotate: 0,
+            scale: 1.0,
+            ease: "power1.inOut",
+            duration: 1.0
+          },
+          0
+        );
+
+        // Left: Seamless transition (swap opacities at the exact moment of landing, last 5% of scroll)
+        tlLeft.to(
+          ".floating-tooth-1",
+          { opacity: 0, duration: 0.05, ease: "none" },
+          0.95
+        );
+        tlLeft.fromTo(
+          "#sobre-tooth-static",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.05, ease: "none" },
+          0.95
+        );
+
+
+        // 2. RIGHT TOOTH TIMELINE: Continues descending all the way behind all content
+        const tlRight = gsap.timeline({
           scrollTrigger: {
             trigger: estudioEl,
             endTrigger: tecnologiaEl,
@@ -40,37 +116,25 @@ export default function FloatingTeeth() {
           },
         });
 
-        // 1. Fast Fade-in at the very beginning of the scroll timeline (first 5% of scroll)
-        // This ensures they are fully visible immediately after the Hero section
-        tl.fromTo(
-          ".floating-tooth-el",
+        // Right: Fast Fade-in
+        tlRight.fromTo(
+          ".floating-tooth-2",
           { opacity: 0 },
           { opacity: 1, duration: 0.05, ease: "power1.inOut" },
           0
         );
 
-        // 2. Descending Movements (different vertical travel ranges for different speeds)
-        // They stay "mais para o canto" and drift slightly outwards to ensure zero overlap with content
-        
-        // Left Tooth (Tooth 1): Medium, elevated, blur-6px, opaque. Descends 60vh (Foreground z-[30])
-        tl.fromTo(
-          ".floating-tooth-1",
-          { y: "-10vh", x: "0vw", rotate: -30, scale: 0.9 },
-          { y: "50vh", x: "-2vw", rotate: 20, scale: 1.1, ease: "power1.inOut" },
-          0
-        );
-
-        // Right Tooth (Tooth 2): Medium-Small, blur-7px, opaque. Descends 40vh (Background z-[5])
-        tl.fromTo(
+        // Right: Descend behind content
+        tlRight.fromTo(
           ".floating-tooth-2",
           { y: "-15vh", x: "0vw", rotate: 25, scale: 0.8 },
-          { y: "25vh", x: "2vw", rotate: -15, scale: 1.0, ease: "power1.inOut" },
+          { y: "45vh", x: "2vw", rotate: -15, scale: 1.0, ease: "power1.inOut" },
           0
         );
 
-        // 3. Smooth Fade-out at the very end of the scroll timeline (last 15% of scroll)
-        tl.to(
-          ".floating-tooth-el",
+        // Right: Smooth Fade-out at the very end of the scroll timeline (last 15% of scroll)
+        tlRight.to(
+          ".floating-tooth-2",
           { opacity: 0, duration: 0.15, ease: "power1.inOut" },
           0.85
         );

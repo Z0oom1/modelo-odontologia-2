@@ -103,6 +103,82 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 2.B. New Section: Sobre (About & Dental Care) */}
+        <section id="sobre" className="relative w-full py-24 md:py-36 bg-[#FCFCFA] z-10 border-t border-neutral-900/5 overflow-hidden">
+          <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
+            
+            {/* Left: Premium Empty-Image Frame (Target for the descending Tooth 1) */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="sobre-tooth-target-container w-full max-w-[400px] aspect-square relative rounded-3xl border border-neutral-900/5 bg-[#FDFDFB] flex items-center justify-center shadow-xl">
+                {/* Visual marker of the slot: elegant dashed thin ring */}
+                <div className="absolute inset-8 rounded-full border border-dashed border-neutral-900/5 animate-[spin_120s_linear_infinite]" />
+                
+                {/* Real DOM Slot: This is the target box where the floating tooth will dock! */}
+                <div 
+                  id="sobre-tooth-slot" 
+                  className="w-48 h-48 md:w-60 md:h-60 relative flex items-center justify-center"
+                >
+                  {/* Static Tooth Image inside the slot, initially invisible (opacity-0)
+                      We'll fade it to 100% opacity exactly when the floating tooth lands! */}
+                  <div 
+                    id="sobre-tooth-static" 
+                    className="w-full h-full relative opacity-0"
+                  >
+                    <Image
+                      src="/dente.png"
+                      alt="Tooth Clean Docked"
+                      fill
+                      className="object-contain blur-[1px]"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Premium Dental Care Philosophy & Info */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              <span className="text-[10px] tracking-[0.25em] font-light text-neutral-400 block mb-4 uppercase">
+                ARQUITETURA DO SORRISO
+              </span>
+              <h2 className="text-3xl md:text-5xl font-light tracking-tighter text-neutral-900 leading-[1.1] mb-8">
+                Preservação ativa e a ciência do <span className="italic font-serif text-neutral-800">cuidado diário</span>.
+              </h2>
+              <p className="text-sm md:text-base font-light text-neutral-500 leading-relaxed max-w-[55ch] mb-8">
+                No estúdio myTooth, acreditamos que a odontologia de excelência começa no cuidado biológico preventivo. Mais do que esculpir restaurações perfeitas sob microscopia, orientamos nossos pacientes na manutenção da saúde e integridade do esmalte natural.
+              </p>
+              
+              {/* Dental Care Info Blocks - High end spaced metadata rows */}
+              <div className="space-y-6 border-t border-neutral-900/5 pt-8">
+                <div className="flex items-start gap-4">
+                  <span className="text-xs font-mono text-[#C5A880] mt-1">01 /</span>
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Remineralização Biológica do Esmalte</h4>
+                    <p className="text-xs text-neutral-400 mt-1">Estimulação mineral ativa através de nano-hidroxiapatita sintética, protegendo a barreira natural contra ácidos e micro-lesões diárias.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <span className="text-xs font-mono text-[#C5A880] mt-1">02 /</span>
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Preservação do Microbioma Oral</h4>
+                    <p className="text-xs text-neutral-400 mt-1">Higienização com componentes metal-free e óleos ozonizados essenciais que controlam patógenos sem destruir as bactérias benéficas da saliva.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <span className="text-xs font-mono text-[#C5A880] mt-1">03 /</span>
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-900">Técnicas de Escovação Micro-Conservadoras</h4>
+                    <p className="text-xs text-neutral-400 mt-1">Instrução clínica individualizada para escovação não abrasiva, evitando retrações gengivais e preservando a junção cemento-esmalte.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
         {/* 3. Pinned Scroll Camera Slider */}
         <section id="especialidades" className="relative w-full z-20">
           <CameraScrollSection />
@@ -406,6 +482,7 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-x-16 gap-y-8 text-xs font-light tracking-widest text-white/60">
               <a href="#estudio" className="hover:text-white transition-colors duration-300">ESTÚDIO</a>
+              <a href="#sobre" className="hover:text-white transition-colors duration-300">SOBRE</a>
               <a href="#especialidades" className="hover:text-white transition-colors duration-300">ESPECIALIDADES</a>
               <a href="#contato" className="hover:text-white transition-colors duration-300">RESERVA</a>
             </div>
