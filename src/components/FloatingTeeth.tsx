@@ -39,34 +39,24 @@ export default function FloatingTeeth() {
             end: "center center",     // Ends when #sobre is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
-            onEnter: () => {
-              // Scrolling down from Hero: Clear forced states and let timeline handle scrub fade-in
+            onUpdate: (self) => {
               const staticEl = document.getElementById("sobre-tooth-static");
               const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.classList.add("tooth-hidden");
-              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
-            },
-            onLeave: () => {
-              // Reached landing point scrolling down: Instant swap!
-              const staticEl = document.getElementById("sobre-tooth-static");
-              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.classList.remove("tooth-hidden");
-              if (fixedEl) fixedEl.classList.add("tooth-hidden");
-            },
-            onEnterBack: () => {
-              // Scrolling back up: Instant reverse swap!
-              // Force static tooth to hidden and instantly show the fixed tooth to prevent delay
-              const staticEl = document.getElementById("sobre-tooth-static");
-              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.classList.add("tooth-hidden");
-              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
-            },
-            onLeaveBack: () => {
-              // Scrolled back up into the Hero: Instantly hide everything
-              const staticEl = document.getElementById("sobre-tooth-static");
-              const fixedEl = document.querySelector(".floating-tooth-1") as HTMLElement;
-              if (staticEl) staticEl.classList.add("tooth-hidden");
-              if (fixedEl) fixedEl.classList.add("tooth-hidden");
+              if (!fixedEl) return;
+
+              if (self.progress >= 1) {
+                // Docked state (past the end)
+                if (staticEl) staticEl.classList.remove("tooth-hidden");
+                fixedEl.classList.add("tooth-hidden");
+              } else if (self.progress <= 0) {
+                // Out of bounds state (before the start / in Hero)
+                if (staticEl) staticEl.classList.add("tooth-hidden");
+                fixedEl.classList.add("tooth-hidden");
+              } else {
+                // Active animating state (between start and end)
+                if (staticEl) staticEl.classList.add("tooth-hidden");
+                fixedEl.classList.remove("tooth-hidden");
+              }
             }
           },
         });
@@ -149,45 +139,28 @@ export default function FloatingTeeth() {
             end: "center center",     // Ends when #corpo-clinico is centered in viewport (landing point)
             scrub: scrubSpeed,
             invalidateOnRefresh: true,
-            onEnter: () => {
-              // Scrolling down: Clear forced states
+            onUpdate: (self) => {
               const emptyImg = document.getElementById("doctor-empty-img");
               const toothImg = document.getElementById("doctor-tooth-img");
               const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
+              if (!fixedEl) return;
 
-              if (emptyImg) emptyImg.classList.remove("tooth-hidden");
-              if (toothImg) toothImg.classList.add("tooth-hidden");
-              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
-            },
-            onLeave: () => {
-              // Reached landing point scrolling down: Instant swap!
-              const emptyImg = document.getElementById("doctor-empty-img");
-              const toothImg = document.getElementById("doctor-tooth-img");
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-
-              if (emptyImg) emptyImg.classList.add("tooth-hidden");
-              if (toothImg) toothImg.classList.remove("tooth-hidden");
-              if (fixedEl) fixedEl.classList.add("tooth-hidden");
-            },
-            onEnterBack: () => {
-              // Scrolling back up: Instant reverse swap!
-              const emptyImg = document.getElementById("doctor-empty-img");
-              const toothImg = document.getElementById("doctor-tooth-img");
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-
-              if (emptyImg) emptyImg.classList.remove("tooth-hidden");
-              if (toothImg) toothImg.classList.add("tooth-hidden");
-              if (fixedEl) fixedEl.classList.remove("tooth-hidden");
-            },
-            onLeaveBack: () => {
-              // Scrolled back up into the Hero: Instantly hide everything
-              const emptyImg = document.getElementById("doctor-empty-img");
-              const toothImg = document.getElementById("doctor-tooth-img");
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-
-              if (emptyImg) emptyImg.classList.remove("tooth-hidden");
-              if (toothImg) toothImg.classList.add("tooth-hidden");
-              if (fixedEl) fixedEl.classList.add("tooth-hidden");
+              if (self.progress >= 1) {
+                // Docked state (past the end)
+                if (emptyImg) emptyImg.classList.add("tooth-hidden");
+                if (toothImg) toothImg.classList.remove("tooth-hidden");
+                fixedEl.classList.add("tooth-hidden");
+              } else if (self.progress <= 0) {
+                // Out of bounds state (before the start / in Hero)
+                if (emptyImg) emptyImg.classList.remove("tooth-hidden");
+                if (toothImg) toothImg.classList.add("tooth-hidden");
+                fixedEl.classList.add("tooth-hidden");
+              } else {
+                // Active animating state (between start and end)
+                if (emptyImg) emptyImg.classList.remove("tooth-hidden");
+                if (toothImg) toothImg.classList.add("tooth-hidden");
+                fixedEl.classList.remove("tooth-hidden");
+              }
             }
           },
         });

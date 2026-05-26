@@ -313,7 +313,7 @@ export default function Home() {
                     src="/doutor.png" 
                     alt="Dr. João Silva - Diretor Clínico da myTooth" 
                     fill 
-                    className="object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
+                    className="object-cover transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
                     priority
                   />
 
@@ -323,7 +323,7 @@ export default function Home() {
                     src="/doutor-com-dente.png" 
                     alt="Dr. João Silva com dente - myTooth" 
                     fill 
-                    className="object-cover absolute inset-0 tooth-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
+                    className="object-cover absolute inset-0 tooth-hidden transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105" 
                     priority
                   />
 
