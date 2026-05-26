@@ -116,7 +116,7 @@ export default function Home() {
                 {/* Real DOM Slot: This is the target box where the floating tooth will dock! */}
                 <div 
                   id="sobre-tooth-slot" 
-                  className="w-48 h-48 md:w-64 md:h-64 relative flex items-center justify-center"
+                  className="w-64 h-64 md:w-80 md:h-80 relative flex items-center justify-center"
                 >
                   {/* Static Tooth Image inside the slot, initially invisible (opacity-0)
                       We'll fade it to 100% opacity exactly when the floating tooth lands! */}

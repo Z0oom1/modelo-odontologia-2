@@ -139,61 +139,6 @@ export default function FloatingTeeth() {
         );
 
 
-        // 2. RIGHT TOOTH TIMELINE: Continues descending all the way behind all content
-        const tlRight = gsap.timeline({
-          scrollTrigger: {
-            trigger: estudioEl,
-            endTrigger: tecnologiaEl,
-            start: "top bottom",         // Starts exactly when #estudio enters the bottom of the viewport
-            end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport (stays longer)
-            scrub: scrubSpeed,
-            invalidateOnRefresh: true,
-            onEnter: () => {
-              // Clear forced state on entry
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-              if (fixedEl) fixedEl.style.removeProperty("opacity");
-            },
-            onLeave: () => {
-              // Lock state at the end of scroll
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
-            },
-            onEnterBack: () => {
-              // Clear forced state when coming back
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-              if (fixedEl) fixedEl.style.removeProperty("opacity");
-            },
-            onLeaveBack: () => {
-              // Instantly hide in Hero section
-              const fixedEl = document.querySelector(".floating-tooth-2") as HTMLElement;
-              if (fixedEl) fixedEl.style.setProperty("opacity", "0", "important");
-            }
-          },
-        });
-
-        // Right: Fast Fade-in
-        tlRight.fromTo(
-          ".floating-tooth-2",
-          { opacity: 0 },
-          { opacity: 1, duration: 0.05, ease: "power1.inOut" },
-          0
-        );
-
-        // Right: Descend behind content
-        tlRight.fromTo(
-          ".floating-tooth-2",
-          { y: "-15vh", x: "0vw", rotate: 25, scale: 0.8 },
-          { y: "45vh", x: "2vw", rotate: -15, scale: 1.0, ease: "power1.inOut" },
-          0
-        );
-
-        // Right: Smooth Fade-out at the very end of the scroll timeline (last 15% of scroll)
-        tlRight.to(
-          ".floating-tooth-2",
-          { opacity: 0, duration: 0.15, ease: "power1.inOut" },
-          0.85
-        );
-
         // Force immediate calculation and lock triggers in position
         ScrollTrigger.refresh();
 
@@ -208,31 +153,12 @@ export default function FloatingTeeth() {
 
   return (
     <div ref={containerRef}>
-      {/* A. Background Teeth Container (z-[5])
-          This sits below all page sections (z-10 and z-20), so the right-side tooth passes behind them */}
-      <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[5]">
-        {/* Right Tooth: Foreground Mid (Top-Right) · Medium-Small, blurred, solid opacity */}
-        <div 
-          className="floating-tooth-el floating-tooth-2 absolute top-[15vh] right-[4vw] md:right-[6vw] w-40 h-40 md:w-52 md:h-52 blur-[7px] opacity-0"
-        >
-          <div className="relative w-full h-full">
-            <Image
-              src="/dente.png"
-              alt="Tooth Right Background"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* B. Foreground Teeth Container (z-[30])
+      {/* Foreground Teeth Container (z-[30])
           This sits above all page sections (z-10 and z-20), so the left-side tooth passes in front of everything */}
       <div className="fixed inset-0 pointer-events-none select-none overflow-hidden z-[30]">
-        {/* Left Tooth: Foreground Bokeh (Bottom-Left) · Medium, elevated, blurred, solid opacity */}
+        {/* Left Tooth: Foreground Bokeh (Bottom-Left) · Large, elevated, blurred, solid opacity */}
         <div 
-          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-48 h-48 md:w-64 md:h-64 blur-[6px] opacity-0"
+          className="floating-tooth-el floating-tooth-1 absolute top-[25vh] left-[4vw] md:left-[6vw] w-64 h-64 md:w-80 md:h-80 blur-[6px] opacity-0"
         >
           <div className="relative w-full h-full">
             <Image
