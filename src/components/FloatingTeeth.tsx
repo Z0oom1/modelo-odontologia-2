@@ -267,9 +267,39 @@ export default function FloatingTeeth() {
       }, containerRef);
     }, 100);
 
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest("a");
+      if (anchor && anchor.hash && anchor.hash.startsWith("#")) {
+        document.body.classList.add("scroll-jumping");
+        
+        if ((window as any).scrollJumpingTimeout) {
+          clearTimeout((window as any).scrollJumpingTimeout);
+        }
+        
+        (window as any).scrollJumpingTimeout = setTimeout(() => {
+          document.body.classList.remove("scroll-jumping");
+        }, 1500); // Safe duration for smooth-scrolling jumps
+      }
+    };
+
+    const removeJumpingClass = () => {
+      document.body.classList.remove("scroll-jumping");
+    };
+
+    document.addEventListener("click", handleAnchorClick);
+    window.addEventListener("wheel", removeJumpingClass, { passive: true });
+    window.addEventListener("touchmove", removeJumpingClass, { passive: true });
+
     return () => {
       clearTimeout(timer);
       if (ctx) ctx.revert();
+      document.removeEventListener("click", handleAnchorClick);
+      window.removeEventListener("wheel", removeJumpingClass);
+      window.removeEventListener("touchmove", removeJumpingClass);
+      if ((window as any).scrollJumpingTimeout) {
+        clearTimeout((window as any).scrollJumpingTimeout);
+      }
     };
   }, []);
 

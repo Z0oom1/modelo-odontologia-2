@@ -502,6 +502,7 @@ export default function Home() {
               <a href="#estudio" className="hover:text-white transition-colors duration-300">ESTÚDIO</a>
               <a href="#sobre" className="hover:text-white transition-colors duration-300">SOBRE</a>
               <a href="#especialidades" className="hover:text-white transition-colors duration-300">ESPECIALIDADES</a>
+              <a href="#corpo-clinico" className="hover:text-white transition-colors duration-300">DOUTOR</a>
               <a href="#contato" className="hover:text-white transition-colors duration-300">RESERVA</a>
             </div>
 

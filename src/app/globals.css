@@ -98,3 +98,9 @@ html.lenis body {
 video::-webkit-media-controls {
   display: none !important;
 }
+
+/* Hide teeth during smooth scroll navigation jumps */
+body.scroll-jumping .floating-tooth-el {
+  opacity: 0 !important;
+  display: none !important;
+}

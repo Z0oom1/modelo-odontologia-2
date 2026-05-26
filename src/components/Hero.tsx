@@ -122,6 +122,7 @@ export default function Hero() {
           <a href="#sobre" className="hover:text-white transition-colors duration-300">SOBRE</a>
           <a href="#especialidades" className="hover:text-white transition-colors duration-300">ESPECIALIDADES</a>
           <a href="#tecnologia" className="hover:text-white transition-colors duration-300">TECNOLOGIA</a>
+          <a href="#corpo-clinico" className="hover:text-white transition-colors duration-300">DOUTOR</a>
           <a href="#contato" className="hover:text-white transition-colors duration-300">AGENDA</a>
         </nav>
 
