@@ -11,104 +11,118 @@ export default function FloatingTeeth() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      // Fluid luxury scrub speed (1.6s lag to smooth out minor scroll jitters)
-      const scrubSpeed = 1.6;
+    let ctx: gsap.Context | null = null;
 
-      // Find the trigger elements globally to bypass GSAP context scoping
-      const estudioEl = document.getElementById("estudio");
-      const tecnologiaEl = document.getElementById("tecnologia");
+    // Defer ScrollTrigger creation to ensure sibling DOM nodes (#estudio and #tecnologia)
+    // are fully rendered and painted by the browser on first paint
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
+        // Find the trigger elements globally to bypass GSAP context scoping
+        const estudioEl = document.getElementById("estudio");
+        const tecnologiaEl = document.getElementById("tecnologia");
 
-      if (!estudioEl || !tecnologiaEl) return;
+        if (!estudioEl || !tecnologiaEl) {
+          console.warn("FloatingTeeth triggers not found in DOM:", { estudioEl, tecnologiaEl });
+          return;
+        }
 
-      // Master Timeline linked from top of #estudio to bottom of #tecnologia (stays longer on screen)
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: estudioEl,
-          endTrigger: tecnologiaEl,
-          start: "top bottom",      // Starts when the top of #estudio enters the viewport (right after Hero)
-          end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport (stays longer)
-          scrub: scrubSpeed,
-          invalidateOnRefresh: true,
-        },
-      });
+        const scrubSpeed = 1.6;
 
-      // 1. Fast Fade-in at the very beginning of the scroll timeline (first 5% of scroll)
-      // This ensures they are fully visible immediately after the Hero section
-      tl.fromTo(
-        ".floating-tooth-el",
-        { opacity: 0 },
-        { opacity: 1, duration: 0.05, ease: "power1.inOut" },
-        0
-      );
+        // Master Timeline linked from top of #estudio to bottom of #tecnologia (stays longer on screen)
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: estudioEl,
+            endTrigger: tecnologiaEl,
+            start: "top bottom",      // Starts when the top of #estudio enters the viewport (right after Hero)
+            end: "bottom top",        // Ends when the bottom of #tecnologia leaves the viewport (stays longer)
+            scrub: scrubSpeed,
+            invalidateOnRefresh: true,
+          },
+        });
 
-      // 2. Parabolic Descending Arc Movements (using keyframes to create smooth sweeps)
-      // Tooth 1: Foreground Bokeh (Bottom-Left) · Large, z-[30] (in front of all divs)
-      tl.fromTo(
-        ".floating-tooth-1",
-        { x: "-25vw", y: "-20vh", rotate: -45, scale: 0.85 },
-        {
-          keyframes: [
-            { x: "5vw", y: "10vh", rotate: 5, scale: 1.05, ease: "power1.out" },
-            { x: "35vw", y: "45vh", rotate: 50, scale: 1.2, ease: "power1.in" }
-          ],
-          duration: 1.0
-        },
-        0
-      );
+        // 1. Fast Fade-in at the very beginning of the scroll timeline (first 5% of scroll)
+        // This ensures they are fully visible immediately after the Hero section
+        tl.fromTo(
+          ".floating-tooth-el",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.05, ease: "power1.inOut" },
+          0
+        );
 
-      // Tooth 2: Background Mid (Top-Right) · Medium-Large, z-[5] (passes behind all divs)
-      tl.fromTo(
-        ".floating-tooth-2",
-        { x: "50vw", y: "-30vh", rotate: 35, scale: 0.75 },
-        {
-          keyframes: [
-            { x: "10vw", y: "10vh", rotate: 0, scale: 0.9, ease: "power1.out" },
-            { x: "-25vw", y: "60vh", rotate: -40, scale: 1.05, ease: "power1.in" }
-          ],
-          duration: 1.0
-        },
-        0
-      );
+        // 2. Parabolic Descending Arc Movements (using keyframes to create smooth sweeps)
+        // Tooth 1: Foreground Bokeh (Bottom-Left) · Large, z-[30] (in front of all divs)
+        tl.fromTo(
+          ".floating-tooth-1",
+          { x: "-25vw", y: "-20vh", rotate: -45, scale: 0.85 },
+          {
+            keyframes: [
+              { x: "5vw", y: "10vh", rotate: 5, scale: 1.05, ease: "power1.out" },
+              { x: "35vw", y: "45vh", rotate: 50, scale: 1.2, ease: "power1.in" }
+            ],
+            duration: 1.0
+          },
+          0
+        );
 
-      // Tooth 3: Foreground Deep (Mid-Left) · Small, z-[30] (in front of all divs)
-      tl.fromTo(
-        ".floating-tooth-3",
-        { x: "-25vw", y: "-15vh", rotate: -60, scale: 0.6 },
-        {
-          keyframes: [
-            { x: "5vw", y: "18vh", rotate: 5, scale: 0.75, ease: "power1.out" },
-            { x: "25vw", y: "50vh", rotate: 70, scale: 0.9, ease: "power1.in" }
-          ],
-          duration: 1.0
-        },
-        0
-      );
+        // Tooth 2: Background Mid (Top-Right) · Medium-Large, z-[5] (passes behind all divs)
+        tl.fromTo(
+          ".floating-tooth-2",
+          { x: "50vw", y: "-30vh", rotate: 35, scale: 0.75 },
+          {
+            keyframes: [
+              { x: "10vw", y: "10vh", rotate: 0, scale: 0.9, ease: "power1.out" },
+              { x: "-25vw", y: "60vh", rotate: -40, scale: 1.05, ease: "power1.in" }
+            ],
+            duration: 1.0
+          },
+          0
+        );
 
-      // Tooth 4: Background Deepest (Bottom-Right) · Very small, z-[5] (passes behind all divs)
-      tl.fromTo(
-        ".floating-tooth-4",
-        { x: "45vw", y: "-25vh", rotate: 45, scale: 0.5 },
-        {
-          keyframes: [
-            { x: "5vw", y: "12vh", rotate: -10, scale: 0.65, ease: "power1.out" },
-            { x: "-15vw", y: "55vh", rotate: -55, scale: 0.75, ease: "power1.in" }
-          ],
-          duration: 1.0
-        },
-        0
-      );
+        // Tooth 3: Foreground Deep (Mid-Left) · Small, z-[30] (in front of all divs)
+        tl.fromTo(
+          ".floating-tooth-3",
+          { x: "-25vw", y: "-15vh", rotate: -60, scale: 0.6 },
+          {
+            keyframes: [
+              { x: "5vw", y: "18vh", rotate: 5, scale: 0.75, ease: "power1.out" },
+              { x: "25vw", y: "50vh", rotate: 70, scale: 0.9, ease: "power1.in" }
+            ],
+            duration: 1.0
+          },
+          0
+        );
 
-      // 3. Smooth Fade-out at the very end of the scroll timeline (last 15% of scroll)
-      tl.to(
-        ".floating-tooth-el",
-        { opacity: 0, duration: 0.15, ease: "power1.inOut" },
-        0.85
-      );
+        // Tooth 4: Background Deepest (Bottom-Right) · Very small, z-[5] (passes behind all divs)
+        tl.fromTo(
+          ".floating-tooth-4",
+          { x: "45vw", y: "-25vh", rotate: 45, scale: 0.5 },
+          {
+            keyframes: [
+              { x: "5vw", y: "12vh", rotate: -10, scale: 0.65, ease: "power1.out" },
+              { x: "-15vw", y: "55vh", rotate: -55, scale: 0.75, ease: "power1.in" }
+            ],
+            duration: 1.0
+          },
+          0
+        );
 
-    }, containerRef);
+        // 3. Smooth Fade-out at the very end of the scroll timeline (last 15% of scroll)
+        tl.to(
+          ".floating-tooth-el",
+          { opacity: 0, duration: 0.15, ease: "power1.inOut" },
+          0.85
+        );
 
-    return () => ctx.revert();
+        // Force immediate calculation and lock triggers in position
+        ScrollTrigger.refresh();
+
+      }, containerRef);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (
