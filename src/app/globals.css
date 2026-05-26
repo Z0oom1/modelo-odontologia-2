@@ -110,3 +110,11 @@ body.scroll-jumping .floating-tooth-el {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+/* Force 100% instant opacity changes on teeth elements and doctor portraits, disabling opacity transitions globally */
+.floating-tooth-el, 
+#sobre-tooth-static, 
+#doctor-tooth-img, 
+#doctor-empty-img {
+  transition: transform 1000ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
